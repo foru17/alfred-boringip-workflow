@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>lookupdomainip</string>
+	<key>category</key>
+	<string>Internet</string>
+	<key>connections</key>
+	<dict>
+		<key>E1F673A9-E65D-42D6-ABED-09161F7B3F10</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>2481FD1A-F422-43D0-90BD-ED85152116CE</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>5F269A27-BBEB-417F-8F95-E9BAC7A41082</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>foru17</string>
+	<key>description</key>
+	<string>快速查找域名对应的IP地址</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Lookup Domain IP</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>2481FD1A-F422-43D0-90BD-ED85152116CE</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>63</integer>
+				<key>keyword</key>
+				<string>cip</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Searching...</string>
+				<key>script</key>
+				<string>require_once('workflows.php');
+$w = new Workflows();
+$query = '{query}';
+if (strpos($query, '://') === false) {
+    $query = 'http://' . $query;
+}
+$host = parse_url($query);
+$domain = $host['host'];
+
+function getIp($q){
+	$ipNum = gethostbyname($q);
+	return $ipNum;
+}
+
+$ip = getIp($domain);
+if(strpos($query,$ip) == true){
+	$ip ='IP not found';
+}
+$w-&gt;result('lookupdomainip', $ip,'IP Address:'. $ip , 'Domain:'. $domain, 'icon.png', 'yes');
+echo $w-&gt;toxml();</string>
+				<key>subtext</key>
+				<string>...</string>
+				<key>title</key>
+				<string>Enter the URL</string>
+				<key>type</key>
+				<integer>1</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>E1F673A9-E65D-42D6-ABED-09161F7B3F10</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>The IP has been copied to clipboard</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>5F269A27-BBEB-417F-8F95-E9BAC7A41082</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>2481FD1A-F422-43D0-90BD-ED85152116CE</key>
+		<dict>
+			<key>ypos</key>
+			<real>200</real>
+		</dict>
+		<key>5F269A27-BBEB-417F-8F95-E9BAC7A41082</key>
+		<dict>
+			<key>ypos</key>
+			<real>320</real>
+		</dict>
+		<key>E1F673A9-E65D-42D6-ABED-09161F7B3F10</key>
+		<dict>
+			<key>ypos</key>
+			<real>260</real>
+		</dict>
+	</dict>
+	<key>webaddress</key>
+	<string>https://luolei.org</string>
+</dict>
+</plist>
