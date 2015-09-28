@@ -74,6 +74,7 @@
 				<string>Searching...</string>
 				<key>script</key>
 				<string>require_once('workflows.php');
+require('ping.php');
 $w = new Workflows();
 $query = '{query}';
 if (strpos($query, '://') === false) {
@@ -91,7 +92,11 @@ $ip = getIp($domain);
 if(strpos($query,$ip) == true){
 	$ip ='IP not found';
 }
-$w-&gt;result('lookupdomainip', $ip,'IP Address:'. $ip , 'Domain:'. $domain, 'icon.png', 'yes');
+$ping = new Ping($ip);
+$latency = $ping-&gt;ping();
+
+
+$w-&gt;result('lookupdomainip', $ip,'IP Address:'. $ip . ' Ping:' . $latency , 'Domain:'. $domain  , 'icon.png', 'yes');
 echo $w-&gt;toxml();</string>
 				<key>subtext</key>
 				<string>...</string>
