@@ -3,39 +3,43 @@
 <plist version="1.0">
 <dict>
 	<key>bundleid</key>
-	<string>lookupdomainip</string>
+	<string>com.boringip.alfredworkflow</string>
 	<key>category</key>
-	<string>Internet</string>
+	<string>Tools</string>
 	<key>connections</key>
 	<dict>
-		<key>E1F673A9-E65D-42D6-ABED-09161F7B3F10</key>
+		<key>0531F5FE-D61A-4962-9717-1A66B7C0B8C7</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>2481FD1A-F422-43D0-90BD-ED85152116CE</string>
+				<string>CE345388-A2E5-428F-BF26-EFF6348BD29C</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
 				<string></string>
+				<key>vitoclose</key>
+				<false/>
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>5F269A27-BBEB-417F-8F95-E9BAC7A41082</string>
+				<string>8B3F3733-6893-4FB0-BD2F-CEF3DC3247BF</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
 				<string></string>
+				<key>vitoclose</key>
+				<false/>
 			</dict>
 		</array>
 	</dict>
 	<key>createdby</key>
-	<string>foru17</string>
+	<string>@foru17</string>
 	<key>description</key>
-	<string>快速查找域名对应的IP地址</string>
+	<string>A quick way to lookup domain ip address and get ip geo data.</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
-	<string>Lookup Domain IP</string>
+	<string>BoringIP</string>
 	<key>objects</key>
 	<array>
 		<dict>
@@ -45,63 +49,57 @@
 				<false/>
 				<key>clipboardtext</key>
 				<string>{query}</string>
+				<key>ignoredynamicplaceholders</key>
+				<false/>
+				<key>transient</key>
+				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.output.clipboard</string>
 			<key>uid</key>
-			<string>2481FD1A-F422-43D0-90BD-ED85152116CE</string>
+			<string>CE345388-A2E5-428F-BF26-EFF6348BD29C</string>
 			<key>version</key>
-			<integer>0</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
 				<key>argumenttype</key>
 				<integer>0</integer>
 				<key>escaping</key>
-				<integer>63</integer>
+				<integer>36</integer>
 				<key>keyword</key>
-				<string>cip</string>
+				<string>bip</string>
 				<key>queuedelaycustom</key>
 				<integer>3</integer>
 				<key>queuedelayimmediatelyinitially</key>
-				<true/>
+				<false/>
 				<key>queuedelaymode</key>
 				<integer>0</integer>
 				<key>queuemode</key>
-				<integer>1</integer>
+				<integer>2</integer>
 				<key>runningsubtext</key>
-				<string>Searching...</string>
+				<string>Retrieving data</string>
 				<key>script</key>
-				<string>require_once('workflows.php');
-require('ping.php');
-$w = new Workflows();
-$query = '{query}';
-if (strpos($query, '://') === false) {
-    $query = 'http://' . $query;
-}
-$host = parse_url($query);
-$domain = $host['host'];
+				<string>$query = "{query}";
 
-function getIp($q){
-	$ipNum = gethostbyname($q);
-	return $ipNum;
-}
-
-$ip = getIp($domain);
-if(strpos($query,$ip) == true){
-	$ip ='IP not found';
-}
-$ping = new Ping($ip);
-$latency = $ping-&gt;ping();
-
-
-$w-&gt;result('lookupdomainip', $ip,'IP Address:'. $ip . ' Ping:' . $latency , 'Domain:'. $domain  , 'icon.png', 'yes');
-echo $w-&gt;toxml();</string>
+require_once('cip.php');</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
 				<key>subtext</key>
 				<string>...</string>
 				<key>title</key>
-				<string>Enter the URL</string>
+				<string>Enter URL or IP</string>
 				<key>type</key>
 				<integer>1</integer>
 				<key>withspace</key>
@@ -110,9 +108,9 @@ echo $w-&gt;toxml();</string>
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>E1F673A9-E65D-42D6-ABED-09161F7B3F10</string>
+			<string>0531F5FE-D61A-4962-9717-1A66B7C0B8C7</string>
 			<key>version</key>
-			<integer>0</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -121,46 +119,52 @@ echo $w-&gt;toxml();</string>
 				<false/>
 				<key>onlyshowifquerypopulated</key>
 				<false/>
-				<key>output</key>
-				<integer>0</integer>
 				<key>removeextension</key>
-				<false/>
-				<key>sticky</key>
 				<false/>
 				<key>text</key>
 				<string>{query}</string>
 				<key>title</key>
-				<string>The IP has been copied to clipboard</string>
+				<string>查询结果</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.output.notification</string>
 			<key>uid</key>
-			<string>5F269A27-BBEB-417F-8F95-E9BAC7A41082</string>
+			<string>8B3F3733-6893-4FB0-BD2F-CEF3DC3247BF</string>
 			<key>version</key>
-			<integer>0</integer>
+			<integer>1</integer>
 		</dict>
 	</array>
 	<key>readme</key>
-	<string></string>
+	<string>A quick way to lookup domain ip address and get ip geo data.</string>
 	<key>uidata</key>
 	<dict>
-		<key>2481FD1A-F422-43D0-90BD-ED85152116CE</key>
+		<key>0531F5FE-D61A-4962-9717-1A66B7C0B8C7</key>
 		<dict>
+			<key>xpos</key>
+			<integer>275</integer>
 			<key>ypos</key>
-			<real>200</real>
+			<integer>235</integer>
 		</dict>
-		<key>5F269A27-BBEB-417F-8F95-E9BAC7A41082</key>
+		<key>8B3F3733-6893-4FB0-BD2F-CEF3DC3247BF</key>
 		<dict>
+			<key>xpos</key>
+			<integer>570</integer>
 			<key>ypos</key>
-			<real>320</real>
+			<integer>375</integer>
 		</dict>
-		<key>E1F673A9-E65D-42D6-ABED-09161F7B3F10</key>
+		<key>CE345388-A2E5-428F-BF26-EFF6348BD29C</key>
 		<dict>
+			<key>xpos</key>
+			<integer>625</integer>
 			<key>ypos</key>
-			<real>260</real>
+			<integer>235</integer>
 		</dict>
 	</dict>
+	<key>variablesdontexport</key>
+	<array/>
+	<key>version</key>
+	<string>0.0.1</string>
 	<key>webaddress</key>
-	<string>https://luolei.org</string>
+	<string></string>
 </dict>
 </plist>
