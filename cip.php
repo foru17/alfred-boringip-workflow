@@ -10,8 +10,7 @@ const ICON = 'icon.png';
 $wf = new Workflow;
 
 function getIPData($ipr) {
-    $opt[CURLOPT_HTTPHEADER] = ['Authorization:APPCODE  '];
-    $response = request('http://hcapi20.market.alicloudapi.com/ip?ip=' . urlencode($ipr) , $opt);
+    $response = request('https://free.is26.com/api/v1/getIp/' . urlencode($ipr) );
     $json = json_decode($response);
     $result = $json->data;
     return $result;
@@ -23,15 +22,14 @@ function getIp($q) {
 }
 
 if (filter_var($query, FILTER_VALIDATE_IP)) {
-    $opt[CURLOPT_HTTPHEADER] = ['Authorization:APPCODE  '];
-    $response = request('http://hcapi20.market.alicloudapi.com/ip?ip=' . urlencode($query) , $opt);
+    $response = request('https://free.is26.com/api/v1/getIp/' . urlencode($query) );
     $json = json_decode($response);
     $result = $json->data;
     $ping = new Ping($result->ip);
     $latency = $ping->ping();
 
     $wf->result()
-        ->title($result->isp . ' ' . $result->region . ' ' . $result->city . ' ' . $result->country)
+        ->title($result->isp . ' ' . $result->area . ' ' . $result->region . ' ' . $result->city . ' ' . $result->country)
         ->subtitle($result->country_id . ' 延迟 ' . $latency)
         ->arg($result->isp . ' ' . $result->region . ' ' . $result->city . ' ' . $result->country)
         ->icon(ICON)
@@ -49,8 +47,7 @@ else {
 
     $ip = getIp($domain);
     $latencyTag = ' 延迟';
-    $opt[CURLOPT_HTTPHEADER] = ['Authorization:APPCODE  '];
-    $response = request('http://hcapi20.market.alicloudapi.com/ip?ip=' . urlencode($ip) , $opt);
+    $response = request('https://free.is26.com/api/v1/getIp/' . urlencode($ip) );
     $json = json_decode($response);
     $result = $json->data;
 
@@ -63,7 +60,7 @@ else {
     $latency = $ping->ping();
 
     $wf->result()
-        ->title($result->isp . ' ' . $result->region . ' ' . $result->city . ' ' . $result->country)
+        ->title($result->isp . ' ' . $result->area . ' ' . $result->region . ' ' . $result->city . ' ' . $result->country)
         ->subtitle($ip . ' ' . $result->country_id . $latencyTag . $latency)
         ->arg($ip)
         ->icon(ICON)
