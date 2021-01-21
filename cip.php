@@ -10,7 +10,7 @@ const ICON = 'icon.png';
 $wf = new Workflow;
 
 function getIPData($ipr) {
-    $opt[CURLOPT_HTTPHEADER] = ['Authorization:APPCODE  09212f3209724dadb7f6056974bdfbe9'];
+    $opt[CURLOPT_HTTPHEADER] = ['Authorization:APPCODE  '];
     $response = request('http://hcapi20.market.alicloudapi.com/ip?ip=' . urlencode($ipr) , $opt);
     $json = json_decode($response);
     $result = $json->data;
@@ -23,7 +23,7 @@ function getIp($q) {
 }
 
 if (filter_var($query, FILTER_VALIDATE_IP)) {
-    $opt[CURLOPT_HTTPHEADER] = ['Authorization:APPCODE  09212f3209724dadb7f6056974bdfbe9'];
+    $opt[CURLOPT_HTTPHEADER] = ['Authorization:APPCODE  '];
     $response = request('http://hcapi20.market.alicloudapi.com/ip?ip=' . urlencode($query) , $opt);
     $json = json_decode($response);
     $result = $json->data;
@@ -32,8 +32,11 @@ if (filter_var($query, FILTER_VALIDATE_IP)) {
 
     $wf->result()
         ->title($result->isp . ' ' . $result->region . ' ' . $result->city . ' ' . $result->country)
-        ->subtitle($result->country_id . ' 延迟 ' . $latency)->icon(ICON)
+        ->subtitle($result->country_id . ' 延迟 ' . $latency)
+        ->arg($result->isp . ' ' . $result->region . ' ' . $result->city . ' ' . $result->country)
+        ->icon(ICON)
         ->autocomplete($key);
+        
     echo $wf->output();
 
 }
@@ -46,7 +49,7 @@ else {
 
     $ip = getIp($domain);
     $latencyTag = ' 延迟';
-    $opt[CURLOPT_HTTPHEADER] = ['Authorization:APPCODE  09212f3209724dadb7f6056974bdfbe9'];
+    $opt[CURLOPT_HTTPHEADER] = ['Authorization:APPCODE  '];
     $response = request('http://hcapi20.market.alicloudapi.com/ip?ip=' . urlencode($ip) , $opt);
     $json = json_decode($response);
     $result = $json->data;
@@ -61,7 +64,9 @@ else {
 
     $wf->result()
         ->title($result->isp . ' ' . $result->region . ' ' . $result->city . ' ' . $result->country)
-        ->subtitle($ip . ' ' . $result->country_id . $latencyTag . $latency)->icon(ICON)
+        ->subtitle($ip . ' ' . $result->country_id . $latencyTag . $latency)
+        ->arg($ip)
+        ->icon(ICON)
         ->autocomplete($key);
 
     echo $wf->output();
